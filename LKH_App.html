@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>LKH - Laporan Kinerja Harian</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #1a5c3a;
+    --green-mid: #2d7d52;
+    --green-light: #4caf7d;
+    --green-pale: #e8f5ee;
+    --gold: #c9a84c;
+    --gold-light: #f0dfa0;
+    --cream: #faf8f3;
+    --text-dark: #1a1a1a;
+    --text-mid: #4a5568;
+    --text-light: #718096;
+    --border: #d4e8dc;
+    --red: #e53e3e;
+    --red-light: #fff5f5;
+    --white: #ffffff;
+    --shadow: 0 4px 24px rgba(26,92,58,0.10);
+    --shadow-sm: 0 2px 8px rgba(26,92,58,0.08);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* HEADER */
+  .app-header {
+    background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
+    color: white;
+    padding: 20px 20px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .app-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .app-header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: 20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.15);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .header-icon {
+    width: 44px; height: 44px;
+    background: var(--gold);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(201,168,76,0.4);
+  }
+  .header-title h1 {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .header-title p {
+    font-size: 11px;
+    opacity: 0.75;
+    margin-top: 2px;
+    font-family: 'Lora', serif;
+    font-style: italic;
+  }
+  .header-info {
+    background: rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 12px 14px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .header-info .name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .header-info .meta {
+    font-size: 11px;
+    opacity: 0.8;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    display: flex;
+    background: white;
+    border-radius: 0 0 20px 20px;
+    margin: 0 16px;
+    transform: translateY(-24px);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 14px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: all 0.25s ease;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+  }
+  .tab-btn .tab-icon { font-size: 18px; }
+  .tab-btn.active {
+    color: var(--green-deep);
+    background: var(--green-pale);
+    border-bottom: 3px solid var(--green-mid);
+  }
+
+  /* MAIN CONTENT */
+  .main-content {
+    padding: 0 16px;
+    margin-top: -8px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--green-deep);
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-sub {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-family: 'Lora', serif;
+    font-style: italic;
+  }
+
+  /* FORM CARD */
+  .form-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .form-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green-deep);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .field-group { margin-bottom: 16px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input[type="date"],
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    background: var(--cream);
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="date"]:focus,
+  input[type="text"]:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--green-mid);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(45,125,82,0.12);
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+
+  /* HASIL TOGGLE */
+  .hasil-toggle {
+    display: flex;
+    gap: 10px;
+  }
+  .hasil-btn {
+    flex: 1;
+    padding: 11px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border);
+    background: var(--cream);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .hasil-btn.terlaksana.active {
+    background: #f0fff4;
+    border-color: var(--green-mid);
+    color: var(--green-deep);
+  }
+  .hasil-btn.tidak.active {
+    background: var(--red-light);
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  /* FILE UPLOAD */
+  .upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--cream);
+    position: relative;
+  }
+  .upload-area:active { background: var(--green-pale); border-color: var(--green-mid); }
+  .upload-area input[type="file"] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    width: 100%; height: 100%;
+    padding: 0; border: none; background: none;
+  }
+  .upload-icon { font-size: 32px; margin-bottom: 8px; }
+  .upload-text { font-size: 13px; color: var(--text-light); }
+  .upload-text strong { color: var(--green-mid); }
+
+  .file-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--green-pale);
+    border-radius: var(--radius-sm);
+    margin-top: 8px;
+    display: none;
+  }
+  .file-preview .file-icon { font-size: 20px; }
+  .file-preview .file-name { font-size: 12px; font-weight: 600; color: var(--green-deep); flex: 1; word-break: break-all; }
+  .file-preview .remove-file { cursor: pointer; font-size: 16px; color: var(--red); padding: 4px; }
+
+  /* SUBMIT BTN */
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 4px 16px rgba(26,92,58,0.25);
+    margin-top: 4px;
+  }
+  .btn-submit:active { transform: scale(0.98); opacity: 0.9; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 90px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--green-deep);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(26,92,58,0.35);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* RECORDS LIST */
+  .records-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .records-count {
+    background: var(--green-pale);
+    color: var(--green-deep);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .btn-clear-all {
+    background: none;
+    border: 1.5px solid #fed7d7;
+    color: var(--red);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .record-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green-light);
+    animation: slideIn 0.3s ease;
+  }
+  .record-card.tidak { border-left-color: var(--red); }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .record-date {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .record-uraian {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .record-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .badge.terlaksana { background: #f0fff4; color: var(--green-deep); }
+  .badge.tidak { background: var(--red-light); color: var(--red); }
+
+  .record-doc {
+    font-size: 11px;
+    color: var(--text-light);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .record-delete {
+    background: none;
+    border: none;
+    color: #fc8181;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 4px;
+    border-radius: 6px;
+  }
+  .record-delete:active { background: var(--red-light); }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-light);
+  }
+  .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 13px; line-height: 1.5; }
+
+  /* STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat-card .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green-deep);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card .stat-num.red { color: var(--red); }
+  .stat-card .stat-label { font-size: 11px; color: var(--text-light); font-weight: 600; }
+
+  .export-card {
+    background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+    border-radius: var(--radius);
+    padding: 20px;
+    color: white;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(26,92,58,0.25);
+  }
+  .export-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .export-card p { font-size: 12px; opacity: 0.8; margin-bottom: 14px; }
+  .btn-export {
+    width: 100%;
+    padding: 12px;
+    background: var(--gold);
+    color: var(--green-deep);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  /* BULAN TABS */
+  .bulan-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    scrollbar-width: none;
+  }
+  .bulan-scroll::-webkit-scrollbar { display: none; }
+  .bulan-pill {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-mid);
+  }
+  .bulan-pill.active {
+    background: var(--green-deep);
+    border-color: var(--green-deep);
+    color: white;
+  }
+
+  /* PROFILE */
+  .profile-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .profile-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .profile-row {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--green-pale);
+    font-size: 13px;
+  }
+  .profile-row:last-child { border-bottom: none; }
+  .profile-label { color: var(--text-light); width: 100px; flex-shrink: 0; font-weight: 500; }
+  .profile-val { color: var(--text-dark); font-weight: 600; flex: 1; }
+
+  /* FILTER */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .filter-row select {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  .filter-row input[type="text"] {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-top">
+    <div class="header-icon">📋</div>
+    <div class="header-title">
+      <h1>LKH — Laporan Kinerja Harian</h1>
+      <p>Sasaran Kinerja Pegawai</p>
+    </div>
+  </div>
+  <div class="header-info">
+    <div class="name">Muhajir, S.Pd.I.,Gr</div>
+    <div class="meta">
+      <span>🏫 Guru Akidah Akhlak</span>
+      <span>🕌 MAS PP Darus Sa'adah As'adiyah Lancirang</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('input')" id="tab-input">
+    <span class="tab-icon">✏️</span> Input
+  </button>
+  <button class="tab-btn" onclick="switchTab('rekap')" id="tab-rekap">
+    <span class="tab-icon">📋</span> Rekap
+  </button>
+  <button class="tab-btn" onclick="switchTab('statistik')" id="tab-statistik">
+    <span class="tab-icon">📊</span> Statistik
+  </button>
+  <button class="tab-btn" onclick="switchTab('profil')" id="tab-profil">
+    <span class="tab-icon">👤</span> Profil
+  </button>
+</div>
+
+<div class="main-content">
+
+  <!-- ===== INPUT ===== -->
+  <div class="section active" id="section-input">
+    <p class="section-title">✏️ Input Kegiatan Harian</p>
+    <p class="section-sub">Catat kegiatan yang telah dilaksanakan</p>
+
+    <div class="form-card">
+      <h3>📅 Data Kegiatan</h3>
+
+      <div class="field-group">
+        <label>Tanggal Kegiatan</label>
+        <input type="date" id="inp-tanggal">
+      </div>
+
+      <div class="field-group">
+        <label>Uraian Kegiatan</label>
+        <textarea id="inp-uraian" placeholder="Contoh: Mengajar BTQ Kelas 7b, Upacara Bendera, dll..."></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Hasil Kegiatan</label>
+        <div class="hasil-toggle">
+          <button class="hasil-btn terlaksana active" id="btn-terlaksana" onclick="setHasil('Terlaksana')">
+            ✅ Terlaksana
+          </button>
+          <button class="hasil-btn tidak" id="btn-tidak" onclick="setHasil('Tidak Terlaksana')">
+            ❌ Tidak Terlaksana
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3>📎 Upload Dokumen Bukti</h3>
+      <div class="field-group">
+        <label>Pilih File (Foto / PDF / Dokumen)</label>
+        <div class="upload-area" id="upload-area">
+          <input type="file" id="inp-file" accept="image/*,application/pdf,.docx,.doc,.xlsx,.xls" onchange="handleFile(event)">
+          <div class="upload-icon">📤</div>
+          <div class="upload-text">Ketuk untuk memilih file<br><strong>JPG, PNG, PDF, DOCX</strong> diizinkan</div>
+        </div>
+        <div class="file-preview" id="file-preview">
+          <span class="file-icon">📄</span>
+          <span class="file-name" id="file-name-text"></span>
+          <span class="remove-file" onclick="removeFile()">✕</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="simpanKegiatan()">
+      💾 Simpan Kegiatan
+    </button>
+  </div>
+
+  <!-- ===== REKAP ===== -->
+  <div class="section" id="section-rekap">
+    <div class="records-header">
+      <div>
+        <p class="section-title">📋 Rekap Kegiatan</p>
+        <p class="section-sub" style="margin:0">Daftar semua laporan harian</p>
+      </div>
+      <span class="records-count" id="records-count">0 Data</span>
+    </div>
+
+    <div class="filter-row">
+      <select id="filter-bulan" onchange="renderRekap()">
+        <option value="">Semua Bulan</option>
+        <option value="2026-01">Januari 2026</option>
+        <option value="2026-02">Februari 2026</option>
+        <option value="2026-03">Maret 2026</option>
+        <option value="2026-04">April 2026</option>
+        <option value="2026-05">Mei 2026</option>
+        <option value="2026-06">Juni 2026</option>
+        <option value="2026-07">Juli 2026</option>
+        <option value="2026-08">Agustus 2026</option>
+        <option value="2026-09">September 2026</option>
+        <option value="2026-10">Oktober 2026</option>
+        <option value="2026-11">November 2026</option>
+        <option value="2026-12">Desember 2026</option>
+      </select>
+      <select id="filter-hasil" onchange="renderRekap()">
+        <option value="">Semua Hasil</option>
+        <option value="Terlaksana">Terlaksana</option>
+        <option value="Tidak Terlaksana">Tidak Terlaksana</option>
+      </select>
+    </div>
+
+    <div id="records-container"></div>
+  </div>
+
+  <!-- ===== STATISTIK ===== -->
+  <div class="section" id="section-statistik">
+    <p class="section-title">📊 Statistik Kinerja</p>
+    <p class="section-sub">Ringkasan laporan bulanan</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-total">0</div>
+        <div class="stat-label">Total Kegiatan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-terlaksana">0</div>
+        <div class="stat-label">Terlaksana</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num red" id="stat-tidak">0</div>
+        <div class="stat-label">Tidak Terlaksana</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-persen">0%</div>
+        <div class="stat-label">Capaian</div>
+      </div>
+    </div>
+
+    <div class="export-card">
+      <h3>📤 Ekspor Laporan</h3>
+      <p>Unduh rekap data dalam format CSV untuk dilaporkan</p>
+      <button class="btn-export" onclick="exportCSV()">⬇️ Unduh CSV Rekap</button>
+    </div>
+
+    <div class="form-card">
+      <h3>📅 Rekap Per Bulan</h3>
+      <div id="bulan-rekap-list"></div>
+    </div>
+  </div>
+
+  <!-- ===== PROFIL ===== -->
+  <div class="section" id="section-profil">
+    <p class="section-title">👤 Profil Pegawai</p>
+    <p class="section-sub">Informasi identitas pelapor</p>
+
+    <div class="profile-card">
+      <h3>🏷️ Identitas</h3>
+      <div class="profile-row">
+        <span class="profile-label">Nama</span>
+        <span class="profile-val" id="prof-nama">Muhajir, S.Pd.I.,Gr</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Jabatan</span>
+        <span class="profile-val" id="prof-jabatan">Guru Akidah Akhlak</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Unit Kerja</span>
+        <span class="profile-val" id="prof-unit">MAS PP Darus Sa'adah As'adiyah Lancirang</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Laporan</span>
+        <span class="profile-val">LKH — Laporan Kinerja Harian</span>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3>✏️ Edit Profil</h3>
+      <div class="field-group">
+        <label>Nama Lengkap</label>
+        <input type="text" id="edit-nama" placeholder="Nama lengkap beserta gelar">
+      </div>
+      <div class="field-group">
+        <label>Jabatan</label>
+        <input type="text" id="edit-jabatan" placeholder="Jabatan">
+      </div>
+      <div class="field-group">
+        <label>Unit Kerja / Satuan Pendidikan</label>
+        <input type="text" id="edit-unit" placeholder="Nama institusi">
+      </div>
+      <button class="btn-submit" onclick="simpanProfil()" style="margin-top:8px">
+        💾 Simpan Profil
+      </button>
+    </div>
+
+    <div class="form-card" style="border-color:#fed7d7;">
+      <h3 style="color:var(--red);">⚠️ Zona Bahaya</h3>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px;">Menghapus semua data laporan yang telah disimpan. Tindakan ini tidak dapat dibatalkan.</p>
+      <button onclick="hapusSemua()" style="width:100%;padding:12px;background:var(--red-light);color:var(--red);border:1.5px solid #fed7d7;border-radius:var(--radius-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">
+        🗑️ Hapus Semua Data
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ============ STATE ============
+  let records = JSON.parse(localStorage.getItem('lkh_records') || '[]');
+  let selectedHasil = 'Terlaksana';
+  let selectedFile = null;
+
+  let profile = JSON.parse(localStorage.getItem('lkh_profile') || JSON.stringify({
+    nama: 'Muhajir, S.Pd.I.,Gr',
+    jabatan: 'Guru Akidah Akhlak',
+    unit: 'MAS PP Darus Sa\'adah As\'adiyah Lancirang'
+  }));
+
+  // Set today's date
+  document.getElementById('inp-tanggal').value = new Date().toISOString().split('T')[0];
+
+  // Load profile
+  function loadProfile() {
+    document.getElementById('prof-nama').textContent = profile.nama;
+    document.getElementById('prof-jabatan').textContent = profile.jabatan;
+    document.getElementById('prof-unit').textContent = profile.unit;
+    document.getElementById('edit-nama').value = profile.nama;
+    document.getElementById('edit-jabatan').value = profile.jabatan;
+    document.getElementById('edit-unit').value = profile.unit;
+    // Update header
+    document.querySelector('.header-info .name').textContent = profile.nama;
+    const metaSpans = document.querySelectorAll('.header-info .meta span');
+    if (metaSpans[0]) metaSpans[0].textContent = '🏫 ' + profile.jabatan;
+    if (metaSpans[1]) metaSpans[1].textContent = '🕌 ' + profile.unit;
+  }
+  loadProfile();
+
+  // ============ TABS ============
+  function switchTab(tab) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + tab).classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+    if (tab === 'rekap') renderRekap();
+    if (tab === 'statistik') renderStatistik();
+    window.scrollTo(0, 0);
+  }
+
+  // ============ HASIL TOGGLE ============
+  function setHasil(val) {
+    selectedHasil = val;
+    document.getElementById('btn-terlaksana').classList.toggle('active', val === 'Terlaksana');
+    document.getElementById('btn-tidak').classList.toggle('active', val === 'Tidak Terlaksana');
+  }
+
+  // ============ FILE UPLOAD ============
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    selectedFile = { name: file.name, type: file.type, size: file.size };
+    document.getElementById('file-name-text').textContent = file.name;
+    document.getElementById('file-preview').style.display = 'flex';
+  }
+  function removeFile() {
+    selectedFile = null;
+    document.getElementById('inp-file').value = '';
+    document.getElementById('file-preview').style.display = 'none';
+  }
+
+  // ============ SAVE ============
+  function simpanKegiatan() {
+    const tanggal = document.getElementById('inp-tanggal').value;
+    const uraian = document.getElementById('inp-uraian').value.trim();
+    if (!tanggal) { showToast('⚠️ Pilih tanggal kegiatan!'); return; }
+    if (!uraian) { showToast('⚠️ Isi uraian kegiatan!'); return; }
+
+    const record = {
+      id: Date.now(),
+      tanggal,
+      uraian,
+      hasil: selectedHasil,
+      dokumen: selectedFile ? selectedFile.name : null,
+      createdAt: new Date().toISOString()
+    };
+    records.unshift(record);
+    localStorage.setItem('lkh_records', JSON.stringify(records));
+
+    // Reset form
+    document.getElementById('inp-uraian').value = '';
+    removeFile();
+    setHasil('Terlaksana');
+    document.getElementById('inp-tanggal').value = new Date().toISOString().split('T')[0];
+
+    showToast('✅ Kegiatan berhasil disimpan!');
+  }
+
+  // ============ REKAP ============
+  function renderRekap() {
+    const filterBulan = document.getElementById('filter-bulan').value;
+    const filterHasil = document.getElementById('filter-hasil').value;
+
+    let filtered = records.filter(r => {
+      if (filterBulan && !r.tanggal.startsWith(filterBulan)) return false;
+      if (filterHasil && r.hasil !== filterHasil) return false;
+      return true;
+    });
+
+    document.getElementById('records-count').textContent = filtered.length + ' Data';
+
+    const container = document.getElementById('records-container');
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>Belum ada data laporan.<br>Tambahkan kegiatan di menu Input.</p>
+      </div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(r => `
+      <div class="record-card ${r.hasil === 'Tidak Terlaksana' ? 'tidak' : ''}">
+        <div class="record-date">📅 ${formatDate(r.tanggal)}</div>
+        <div class="record-uraian">${r.uraian}</div>
+        <div class="record-footer">
+          <span class="badge ${r.hasil === 'Terlaksana' ? 'terlaksana' : 'tidak'}">
+            ${r.hasil === 'Terlaksana' ? '✅' : '❌'} ${r.hasil}
+          </span>
+          ${r.dokumen ? `<span class="record-doc">📎 ${r.dokumen}</span>` : ''}
+          <button class="record-delete" onclick="hapusRecord(${r.id})">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function hapusRecord(id) {
+    if (!confirm('Hapus catatan ini?')) return;
+    records = records.filter(r => r.id !== id);
+    localStorage.setItem('lkh_records', JSON.stringify(records));
+    renderRekap();
+    showToast('🗑️ Data dihapus');
+  }
+
+  // ============ STATISTIK ============
+  function renderStatistik() {
+    const total = records.length;
+    const terlaksana = records.filter(r => r.hasil === 'Terlaksana').length;
+    const tidak = records.filter(r => r.hasil === 'Tidak Terlaksana').length;
+    const persen = total > 0 ? Math.round((terlaksana / total) * 100) : 0;
+
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-terlaksana').textContent = terlaksana;
+    document.getElementById('stat-tidak').textContent = tidak;
+    document.getElementById('stat-persen').textContent = persen + '%';
+
+    // Per-month breakdown
+    const byBulan = {};
+    records.forEach(r => {
+      const key = r.tanggal.substring(0, 7);
+      if (!byBulan[key]) byBulan[key] = { total: 0, ok: 0 };
+      byBulan[key].total++;
+      if (r.hasil === 'Terlaksana') byBulan[key].ok++;
+    });
+
+    const bulanNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const bulanList = document.getElementById('bulan-rekap-list');
+    const keys = Object.keys(byBulan).sort().reverse();
+
+    if (keys.length === 0) {
+      bulanList.innerHTML = '<p style="font-size:13px;color:var(--text-light);text-align:center;padding:20px 0">Belum ada data</p>';
+      return;
+    }
+
+    bulanList.innerHTML = keys.map(k => {
+      const [yr, mo] = k.split('-');
+      const nm = bulanNames[parseInt(mo) - 1] + ' ' + yr;
+      const d = byBulan[k];
+      const pct = Math.round((d.ok / d.total) * 100);
+      return `<div style="padding:12px 0;border-bottom:1px solid var(--green-pale)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="font-size:13px;font-weight:600">${nm}</span>
+          <span style="font-size:12px;color:var(--green-mid);font-weight:700">${pct}%</span>
+        </div>
+        <div style="display:flex;gap:8px;font-size:11px;color:var(--text-light)">
+          <span>📋 ${d.total} kegiatan</span>
+          <span>✅ ${d.ok} terlaksana</span>
+          <span>❌ ${d.total - d.ok} tidak</span>
+        </div>
+        <div style="background:var(--green-pale);border-radius:6px;height:6px;margin-top:8px;overflow:hidden">
+          <div style="background:var(--green-mid);height:100%;width:${pct}%;border-radius:6px;transition:width 0.5s ease"></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ============ EXPORT CSV ============
+  function exportCSV() {
+    if (records.length === 0) { showToast('⚠️ Tidak ada data untuk diekspor'); return; }
+    const header = ['No', 'Tanggal', 'Uraian Kegiatan', 'Hasil', 'Dokumen'];
+    const rows = records.map((r, i) => [
+      i + 1,
+      formatDate(r.tanggal),
+      '"' + r.uraian.replace(/"/g, '""') + '"',
+      r.hasil,
+      r.dokumen || '-'
+    ]);
+    const csv = [header, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'LKH_' + profile.nama + '_' + new Date().toISOString().substring(0,10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ CSV berhasil diunduh!');
+  }
+
+  // ============ PROFIL ============
+  function simpanProfil() {
+    profile.nama = document.getElementById('edit-nama').value.trim() || profile.nama;
+    profile.jabatan = document.getElementById('edit-jabatan').value.trim() || profile.jabatan;
+    profile.unit = document.getElementById('edit-unit').value.trim() || profile.unit;
+    localStorage.setItem('lkh_profile', JSON.stringify(profile));
+    loadProfile();
+    showToast('✅ Profil berhasil disimpan!');
+  }
+
+  function hapusSemua() {
+    if (!confirm('Yakin ingin menghapus SEMUA data laporan? Tindakan ini tidak dapat dibatalkan.')) return;
+    records = [];
+    localStorage.setItem('lkh_records', JSON.stringify(records));
+    showToast('🗑️ Semua data telah dihapus');
+  }
+
+  // ============ HELPERS ============
+  function formatDate(dateStr) {
+    if (!dateStr) return '-';
+    const d = new Date(dateStr + 'T00:00:00');
+    const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // Init
+  renderRekap();
+</script>
+</body>
+</html>
